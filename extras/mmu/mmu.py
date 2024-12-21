@@ -552,8 +552,6 @@ class Mmu:
         self.gcode.register_command('MMU_UNLOCK', self.cmd_MMU_UNLOCK, desc = self.cmd_MMU_UNLOCK_help)
         self.gcode.register_command('MMU_RECOVER', self.cmd_MMU_RECOVER, desc = self.cmd_MMU_RECOVER_help)
 
-        self.gcode.register_command('MMU_EXTRUDER_RUNOUT', self.cmd_MMU_EXTRUDER_RUNOUT, desc = self.cmd_MMU_EXTRUDER_RUNOUT_help)
-
         # Endstops for print start / stop. Automatically called if printing from virtual SD-card
         self.gcode.register_command('MMU_PRINT_START', self.cmd_MMU_PRINT_START, desc = self.cmd_MMU_PRINT_START_help)
         self.gcode.register_command('MMU_PRINT_END', self.cmd_MMU_PRINT_END, desc = self.cmd_MMU_PRINT_END_help)

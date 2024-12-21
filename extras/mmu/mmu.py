@@ -425,6 +425,7 @@ class Mmu:
         self.tool_speed_multipliers = []
         self.select_tool_macro = config.get('select_tool_macro', default=None)
         self.select_tool_num_switches = config.getint('select_tool_num_switches', default=0, minval=0)
+        self.disable_extruder_runout = config.getint('disable_extruder_runout', default=0, minval=0, maxval=1)
 
         # Logging
         self.log_level = config.getint('log_level', 1, minval=0, maxval=4)
@@ -550,6 +551,8 @@ class Mmu:
         self.gcode.register_command('MMU_PAUSE', self.cmd_MMU_PAUSE, desc = self.cmd_MMU_PAUSE_help)
         self.gcode.register_command('MMU_UNLOCK', self.cmd_MMU_UNLOCK, desc = self.cmd_MMU_UNLOCK_help)
         self.gcode.register_command('MMU_RECOVER', self.cmd_MMU_RECOVER, desc = self.cmd_MMU_RECOVER_help)
+
+        self.gcode.register_command('MMU_EXTRUDER_RUNOUT', self.cmd_MMU_EXTRUDER_RUNOUT, desc = self.cmd_MMU_EXTRUDER_RUNOUT_help)
 
         # Endstops for print start / stop. Automatically called if printing from virtual SD-card
         self.gcode.register_command('MMU_PRINT_START', self.cmd_MMU_PRINT_START, desc = self.cmd_MMU_PRINT_START_help)
@@ -1375,6 +1378,7 @@ class Mmu:
             'sync_feedback_state': self._get_sync_feedback_string(),
             'print_state': self.print_state,
             'clog_detection': self.enable_clog_detection,
+            'disable_extruder_runout': self.disable_extruder_runout,
             'endless_spool': self.enable_endless_spool,
             'print_start_detection': self.print_start_detection, # For Klippain. Not really sure it is necessary
             'reason_for_pause': self.reason_for_pause if self.is_mmu_paused() else "",
@@ -7324,9 +7328,12 @@ class Mmu:
                     elif sensor.startswith(self.ENDSTOP_GEAR_PREFIX) and gate == self.gate_selected:
                         process_runout = True
 
+                    # Edited to forego this if extruder entry runout detection is disabled
                     elif sensor.startswith(self.ENDSTOP_EXTRUDER_ENTRY):
-                        raise MmuError("Filament runout occured at extruder. Manual intervention is required")
-
+                        if self.disable_extruder_runout == False:
+                            raise MmuError("Filament runout occured at extruder. Manual intervention is required")
+                        else:
+                            self.log_trace("Ignoring extruder entry filament runout because it is disabled in the config.")
                     else:
                         self.log_debug("Assertion failure: Unexpected/unhandled sensor runout event type on %s. Ignored" % sensor)
                 else:

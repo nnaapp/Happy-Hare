@@ -128,7 +128,7 @@ self_update() {
     if [ $? -ne 0 ]; then
         echo -e "${ERROR}Error updating from github"
         echo -e "${ERROR}You might have an old version of git"
-        echo -e "${ERROR}Skipping automatic update..." 
+        echo -e "${ERROR}Skipping automatic update..."
         set -e
         return
     fi
@@ -643,14 +643,14 @@ upgrade_mmu_hardware() {
 # MMU MACHINE / TYPE ---------------------------------------------------------------------------------------------------
 # ███╗   ███╗███╗   ███╗██╗   ██╗    ███╗   ███╗ █████╗  ██████╗██╗  ██╗██╗███╗   ██╗███████╗
 # ████╗ ████║████╗ ████║██║   ██║    ████╗ ████║██╔══██╗██╔════╝██║  ██║██║████╗  ██║██╔════╝
-# ██╔████╔██║██╔████╔██║██║   ██║    ██╔████╔██║███████║██║     ███████║██║██╔██╗ ██║█████╗  
-# ██║╚██╔╝██║██║╚██╔╝██║██║   ██║    ██║╚██╔╝██║██╔══██║██║     ██╔══██║██║██║╚██╗██║██╔══╝  
+# ██╔████╔██║██╔████╔██║██║   ██║    ██╔████╔██║███████║██║     ███████║██║██╔██╗ ██║█████╗
+# ██║╚██╔╝██║██║╚██╔╝██║██║   ██║    ██║╚██╔╝██║██╔══██║██║     ██╔══██║██║██║╚██╗██║██╔══╝
 # ██║ ╚═╝ ██║██║ ╚═╝ ██║╚██████╔╝    ██║ ╚═╝ ██║██║  ██║╚██████╗██║  ██║██║██║ ╚████║███████╗
 # ╚═╝     ╚═╝╚═╝     ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝
 [mmu_machine]
-num_gates: ${_param_mmu_num_gates}				# Number of selectable gates on MMU
-mmu_vendor: ${_param_mmu_vendor}			# MMU family
-mmu_version: ${_param_mmu_version}			# MMU hardware version number (add mod suffix documented above)
+num_gates: ${_param_mmu_num_gates}                              # Number of selectable gates on MMU
+mmu_vendor: ${_param_mmu_vendor}                        # MMU family
+mmu_version: ${_param_mmu_version}                      # MMU hardware version number (add mod suffix documented above)
 
 EOF
 )
@@ -671,7 +671,7 @@ EOF
 
         echo -e "${INFO}Added new [mmu_machine] section to mmu_hardware.cfg..."
     fi
-}  
+}
 
 copy_config_files() {
     mmu_dir="${KLIPPER_CONFIG_HOME}/mmu"
@@ -1137,11 +1137,11 @@ prompt_yn() {
         read -n1 -p "$@ (y/n)? " yn
         case "${yn}" in
             Y|y)
-                echo -n "y" 
+                echo -n "y"
                 break
                 ;;
             N|n)
-                echo -n "n" 
+                echo -n "n"
                 break
                 ;;
             *)
@@ -1903,7 +1903,7 @@ questionaire() {
     echo "    Later:"
     echo "        * Tweak configurations like speed and distance in mmu_parameters.cfg"
     echo "        * Configure your operational preferences in mmu_macro_vars.cfg"
-    echo 
+    echo
     echo "    Good luck! MMU is complex to setup. Remember Discord is your friend.."
     echo -e "    Join the dedicated Happy Hare forum here: ${EMPHASIZE}https://discord.gg/98TYYUf6f2${INFO}"
     echo

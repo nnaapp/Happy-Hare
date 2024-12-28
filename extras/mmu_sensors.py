@@ -171,8 +171,12 @@ class MmuSensors:
 
         # Setup single extruder (entrance) sensor...
         switch_pin = config.get('extruder_switch_pin', None)
-        if switch_pin is not None and not self._is_empty_pin(switch_pin):
-            self._create_mmu_sensor(config, Mmu.ENDSTOP_EXTRUDER_ENTRY, None, switch_pin, event_delay, insert=True, runout=True)
+        if Mmu.disable_extruder_runout == True:
+            if switch_pin is not None and not self._is_empty_pin(switch_pin):
+                self._create_mmu_sensor(config, Mmu.ENDSTOP_EXTRUDER_ENTRY, None, switch_pin, event_delay, insert=True, runout=False)
+        else:
+            if switch_pin is not None and not self._is_empty_pin(switch_pin):
+                self._create_mmu_sensor(config, Mmu.ENDSTOP_EXTRUDER_ENTRY, None, switch_pin, event_delay, insert=True, runout=True)
 
         # Setup single toolhead sensor...
         switch_pin = config.get('toolhead_switch_pin', None)
